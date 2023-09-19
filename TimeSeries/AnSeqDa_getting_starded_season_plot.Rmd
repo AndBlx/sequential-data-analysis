@@ -1,0 +1,148 @@
+---
+title: "AnSeqDa_exercise_1"
+author: "Andrin Beeli"
+date: "2023-09-19"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+#2_ts Graphics autoplot
+
+library(fpp2)
+
+
+```
+
+## AnSeqDa excercise 1 (getting started)
+
+-   Create plots of the following time series: dole, bricksq, lynx, goog
+
+-   Use help() to nd out about the data in each series.
+
+-   For the last plot, modify the axis labels and title.
+
+### Plots:
+
+```{r arrivals}
+
+autoplot(goog) + 
+  ylab("Day") + 
+  xlab("closing stock price") + 
+  ggtitle("Daily stock prices of Google")
+
+
+```
+
+```{r}
+# Seasonality and Trend
+autoplot(a10) + ylab("$ million") + xlab("Year") +
+  ggtitle("Antidiabetic drug sales")
+
+```
+
+```{r}
+# Plot seasonality per Month
+ggseasonplot(a10, year.labels=TRUE, year.labels.left=TRUE) +
+  ylab("$ million") +
+  ggtitle("Seasonal plot: antidiabetic drug sales")
+
+```
+
+```{r}
+
+ggsubseriesplot(a10) + ylab("$ million") +
+  ggtitle("Subseries plot:antidiabetic drug sales")
+
+```
+
+### Results:
+
+January shows the peak of sales and February the low. Reason of this peak is the applied account methods of the insurance. Therefore it is important to keep in mind that a model based on that data is not usful for other countries.
+
+## Arrivals Data Seasonal Plots
+
+The arrivals data set comprises quarterly international arrivals (in thousands) to Australia from Japan, New Zealand, UK and the US.
+
+-   Use autoplot() and ggseasonplot() to compare the dierences between the arrivals from these four countries.
+
+-   ggseasonplot() should be applied to each column separately
+
+-   Can you identify any unusual observations?
+
+### Plots:
+
+```{r}
+
+?arrivals
+str(arrivals)
+ 
+autoplot(arrivals, facets = T)
+
+```
+
+```{r}
+ggseasonplot(arrivals[,1], year.labels=TRUE, year.labels.left=TRUE)  +
+  ylab("Arrivals in k to Australia") +
+  ggtitle("Seasonal plot: Arrivals from Japan to Australia")
+
+```
+
+```{r}
+ggseasonplot(arrivals[,2], year.labels=TRUE, year.labels.left=TRUE) +
+  ylab("Arrivals in k to Australia") +
+  ggtitle("Seasonal plot: Arrivals from New Zealand to Australia")
+
+```
+
+```{r}
+ggseasonplot(arrivals[,3], year.labels=TRUE, year.labels.left=TRUE) +
+  ylab("Arrivals in k to Australia") +
+  ggtitle("Seasonal plot: Arrivals from UK to Australia")
+
+```
+
+```{r}
+
+ggseasonplot(arrivals[,4], year.labels=TRUE, year.labels.left=TRUE) +
+  ylab("Arrivals in k to Australia") +
+  ggtitle("Seasonal plot: Arrivals from US to Australia")
+```
+
+### Results:
+
+Japan: some seasonality from 1995
+
+NZ: upwards trend and seasonality
+
+UK: strong seasoality
+
+US: some seasonality from 1995
+
+**Check of Japan and US with sliced data from 1995**
+
+```{r}
+JapanTo1995 <- window(arrivals[,1], start=c(1995,1))
+autoplot(JapanTo1995)
+```
+
+
+```{r}
+ggseasonplot(JapanTo1995, year.labels=TRUE, year.labels.left=TRUE)  +
+  ylab("Arrivals in k to Australia") +
+  ggtitle("Seasonal plot: Arrivals from Japan to Australia")
+```
+US
+
+```{r}
+USto1995 <- window(arrivals[,4], start=c(1995,1))
+autoplot(JapanTo1995)
+```
+
+
+```{r}
+ggseasonplot(USto1995, year.labels=TRUE, year.labels.left=TRUE)  +
+  ylab("Arrivals in k to Australia") +
+  ggtitle("Seasonal plot: Arrivals from US to Australia")
+```
